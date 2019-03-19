@@ -4,6 +4,7 @@ import index from '@/components/index';
 import allShopping from '@/components/allShopping';
 import shoppingCart from '@/components/shoppingCart';
 import mine from '@/components/mine';
+import shoppingDetail from '@/components/shoppingDetail';
 
 /* 使用路由依赖 */
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: '/mine', //我的订单
       name: 'mine',
       component: mine
+    },
+    {
+      path: '/shoppingDetail', //商品详情
+      name: 'shoppingDetail',
+      component: shoppingDetail
     },
   ]
 })
