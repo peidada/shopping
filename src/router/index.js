@@ -6,6 +6,7 @@ import shoppingCart from '@/components/shoppingCart';
 import mine from '@/components/mine';
 import shoppingDetail from '@/components/shoppingDetail';
 import detailMain from '@/components/detailMain';
+import firmOrder from '@/components/firmOrder';
 
 /* 使用路由依赖 */
 Vue.use(Router)
@@ -41,6 +42,11 @@ export default new Router({
       path: '/detailMain', //商品详情
       name: 'detailMain',
       component: detailMain
+    },
+    {
+      path: '/firmOrder', //确认订单+支付
+      name: 'firmOrder',
+      component: firmOrder
     },
   ]
 })

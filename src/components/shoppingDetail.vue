@@ -1,5 +1,5 @@
 <template>
-  <div class="goods">
+  <div class="goods" v-if="clock">
     <van-swipe class="goods-swipe" :autoplay="3000">
       <van-swipe-item v-for="(thumb,index) in itemData.item_imgs" :key="index">
         <img :src="thumb.url" >
@@ -51,16 +51,31 @@
         立即购买
       </van-goods-action-big-btn>
     </van-goods-action>
+    
+    <van-sku
+      v-model="showBase"
+      :sku="skuData"
+      :goods="goodsData"
+      :goods-id="id"
+      :hide-stock="skuData.hide_stock"
+      :quota="quota"
+      :quota-used="quotaUsed"
+      :show-add-cart-btn="showAddCartBtn"
+      reset-stepper-on-hide
+      @buy-clicked="onBuyClicked"
+      @stepper-change="stepperChange"
+    >   
+    </van-sku>
   </div>
 </template>
 
 <script>
 import {
   Tag, Row, Col, Icon, Cell, CellGroup, Swipe, Toast, SwipeItem, GoodsAction, GoodsActionBigBtn,
-  GoodsActionMiniBtn
+  GoodsActionMiniBtn, Sku
 } from 'vant';
 import { axiosGet, axiosPost } from '../request/http';
-import { get_prod_detail, get_prodlist } from '../request/api';
+import { get_prod_detail, get_prodlist, create_order, get_order } from '../request/api';
 export default {
   components: {
     [Tag.name]: Tag,
@@ -73,20 +88,44 @@ export default {
     [SwipeItem.name]: SwipeItem,
     [GoodsAction.name]: GoodsAction,
     [GoodsActionBigBtn.name]: GoodsActionBigBtn,
-    [GoodsActionMiniBtn.name]: GoodsActionMiniBtn
+    [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
+    [Sku.name]: Sku
   },
   data() {
     return {
+      clock: false,
       goods: {
         express: '免运费',
         remain: 19,
       },
       id: this.$route.query.id,
       itemData: {},
+      showBase: false, //控制sku是否需要打开
+      skuData: {
+        // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
+        // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
+        tree: [],
+        list: [
+          {
+            id: 2259, // skuId，下单时后端需要
+            price: 0, // 价格（单位分）
+            stock_num: 0 // 当前 sku 组合对应的库存
+          }
+        ],
+        hide_stock: false // 是否隐藏剩余库存
+      },
+      goodsData: {
+        title: '', // 商品标题
+        picture: '' // 默认商品 sku 缩略图
+      },
+      quota: 0,
+      quotaUsed: 1, //已经购买过的数量
+      showAddCartBtn: false
     };
   },
   created() {
-    this.shoppingDetail(this.id);
+    this.shoppingDetail(this.$route.query.id);
+    this.getOrder();
   },
   methods: {
     /* 金额保留2位小数 */
@@ -103,8 +142,19 @@ export default {
       });
     },
     /* 立即购买 */
-    orderNow(){
-
+    orderNow() {
+      this.showBase = true;
+    },
+    /* 点击购买回调 */
+    onBuyClicked() {
+      const id = this.itemData.item_id;
+      const price = this.itemData.price * this.quotaUsed;
+      this.createOrder(id, price)
+    },
+    /* 购买数量变化是触发 */
+    stepperChange(value) {
+      console.log(value);
+      this.quotaUsed = value;
     },
     sorry() {
       Toast('暂无后续逻辑~');
@@ -116,10 +166,47 @@ export default {
         item_id: id
       }).then(res => {
         console.log(res);
-        this.itemData = res.response.item;
-        this.$store.commit('hideLoading');
+        /* 通过es6方法判断是否为空对象 */
+        if(Object.keys(res.response.item).length != 0){
+          this.clock = true;
+          this.itemData = res.response.item;
+
+          this.goodsData.title = this.itemData.title;
+          this.goodsData.picture = this.itemData.item_imgs[0].url;
+          this.skuData.list[0].price = this.itemData.price;
+          this.skuData.list[0].stock_num = this.itemData.quantity;
+          
+          this.$store.commit('hideLoading');
+        }
       }).catch(err => {})
     },
+    /* 生成订单 */
+    createOrder(id, price){
+      axiosPost(`/api` + create_order, {
+        prod_id: id,
+        money: price
+      }).then(res => {
+        console.log(res);
+        this.$router.push({
+          path: '/firmOrder',
+          query: {
+            id : id,
+            num: this.quotaUsed
+          }
+        })
+      }).catch(err => {})
+    },
+    /* 订单列表 */
+    getOrder(){
+      axiosPost(`/api` + get_order, {}
+      ).then(res => {
+        console.log(res);
+
+      }).catch(err => {})
+    }
+  },
+  mounted() {
+    
   }
 };
 </script>
