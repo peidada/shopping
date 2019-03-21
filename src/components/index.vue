@@ -8,8 +8,8 @@
     <van-search placeholder="搜索商品" v-model="searchShop" />
     <img v-for="(img,index) in imageList" :key="index" :src="img" class="img">
     <van-row class="shoppings">
-      <van-col span="11" v-for="(items, index) in shopList" :key="index" @click.native="shopDetailClick(items)">
-        <div class="shop-img"></div>
+      <van-col span="11" v-for="(items, index) in shopList" :key="index" @click.native="shopDetailClick(items.item_id)">
+        <div class="shop-img"><img :src="items.headimg" alt=""></div>
         <div class="shop-name">{{items.name}}</div>
         <div class="shop-price">￥{{items.price}}</div>
         <van-icon name="cart-circle-o" class="shop-icon"/>
@@ -66,7 +66,6 @@ export default {
   },
   created() {
     this.shoppingList();
-    // this.shoppingDetail();
   },
   methods: {
     /* 点击页面底部tabbar */
@@ -92,25 +91,21 @@ export default {
     },
     /* 商品列表 */
     shoppingList(){
+      this.$store.commit('showLoading');
       axiosPost(`/api` + get_prodlist, {
         type2:'普通商品',
       }).then(res => {
         console.log(res);
         this.shopList = res;
+        this.$store.commit('hideLoading');
       }).catch(err => {})
     },
-    /* 商品详情 */
-    // shoppingDetail(){
-    //   axiosPost(`/api` + get_prod_detail, {
-    //     item_id: '453482848'
-    //   }).then(res => {
-    //     console.log(res);
-    //   }).catch(err => {})
-    // },
-    shopDetailClick(items){
-      console.log(222);
+    /* 进入商品详情 */
+    shopDetailClick(id){
+      console.log(id);
       this.$router.push({
-        path: '/shoppingDetail'
+        path: '/shoppingDetail',
+        query: {id : id}
       })
     }
   },
@@ -157,7 +152,10 @@ export default {
         .shop-img{
           width: 100%;
           height: 10.88rem;
-          background:#777;
+          img{
+            width: 100%;
+            height: 100%;
+          }
         }
         .shop-name{
           overflow: hidden;
