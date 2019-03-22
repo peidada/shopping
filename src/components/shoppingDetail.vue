@@ -162,7 +162,7 @@ export default {
     /* 商品详情 */
     shoppingDetail(id){
       this.$store.commit('showLoading');
-      axiosPost(`/api` + get_prod_detail, {
+      axiosPost(process.env.API_HOST + get_prod_detail, {
         item_id: id
       }).then(res => {
         console.log(res);
@@ -182,7 +182,7 @@ export default {
     },
     /* 生成订单 */
     createOrder(id, price){
-      axiosPost(`/api` + create_order, {
+      axiosPost(process.env.API_HOST + create_order, {
         prod_id: id,
         money: price
       }).then(res => {
@@ -199,7 +199,7 @@ export default {
     },
     /* 订单列表 */
     getOrder(){
-      axiosPost(`/api` + get_order, {}
+      axiosPost(process.env.API_HOST + get_order, {}
       ).then(res => {
         console.log(res);
 

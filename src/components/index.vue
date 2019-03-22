@@ -92,7 +92,7 @@ export default {
     /* 商品列表 */
     shoppingList(){
       this.$store.commit('showLoading');
-      axiosPost(`/api` + get_prodlist, {
+      axiosPost(process.env.API_HOST + get_prodlist, {
         type2:'普通商品',
       }).then(res => {
         console.log(res);

@@ -179,7 +179,7 @@ export default {
     /* 商品详情 */
     shoppingDetail(id){
       this.$store.commit('showLoading');
-      axiosPost(`/api` + get_prod_detail, {
+      axiosPost(process.env.API_HOST + get_prod_detail, {
         item_id: id
       }).then(res => {
         console.log(res);
@@ -247,7 +247,7 @@ export default {
     },
     /* 去支付 */
     onSubmit() {
-      axiosPost(`/api` + pay_order, {
+      axiosPost(process.env.API_HOST + pay_order, {
         order_id: this.orderId
       }).then(res => {
         console.log(res);

@@ -22,7 +22,7 @@ export default {
     /* 商品详情 */
     shoppingDetail(id){
       this.$store.commit('showLoading');
-      axiosPost(`/api` + get_prod_detail, {
+      axiosPost(process.env.API_HOST + get_prod_detail, {
         item_id: id
       }).then(res => {
         console.log(res);

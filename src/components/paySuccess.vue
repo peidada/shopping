@@ -35,7 +35,7 @@ export default {
       })
     },
     test() {
-      axiosPost(`/api` + get_userinfo, {}).then(res => {
+      axiosPost(process.env.API_HOST + get_userinfo, {}).then(res => {
         console.log(res);
 
       }).catch(err => {})
