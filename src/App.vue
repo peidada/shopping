@@ -2,7 +2,7 @@
   <div id="app">
     <!-- 封装loading -->
     <div class="loading" v-show="LOADING">
-      <van-loading type="spinner" size="50px" color="#666" class="loading-icon"/>
+      <van-loading type="circular" size="50px" color="#666" class="loading-icon"/>
     </div>
     <router-view/>
   </div>

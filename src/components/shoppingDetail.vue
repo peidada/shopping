@@ -172,7 +172,7 @@ export default {
           this.itemData = res.response.item;
 
           this.goodsData.title = this.itemData.title;
-          this.goodsData.picture = this.itemData.item_imgs[0].url;
+          this.goodsData.picture = this.itemData.pic_url;
           this.skuData.list[0].price = this.itemData.price;
           this.skuData.list[0].stock_num = this.itemData.quantity;
           
@@ -191,7 +191,8 @@ export default {
           path: '/firmOrder',
           query: {
             id : id,
-            num: this.quotaUsed
+            num: this.quotaUsed,
+            orderId: res.id,
           }
         })
       }).catch(err => {})
