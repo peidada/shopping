@@ -5,7 +5,10 @@ Vue.use(Vuex);
  
 const store = new Vuex.Store({
     state: {
-        LOADING: false
+        LOADING: false, //loading开关
+        name: '', //个人信息name
+        phone: '', //个人信息phone
+        address: '', //个人信息address
     },
     mutations: {
         showLoading(state){
@@ -13,6 +16,15 @@ const store = new Vuex.Store({
         },
         hideLoading (state) {
             state.LOADING = false
+        },
+        updataName(state, name){
+            state.name = name;
+        },
+        updataPhone(state, phone){
+            state.phone = phone;
+        },
+        updataAddress(state, address){
+            state.address = address;
         }
     }
 })

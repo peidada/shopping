@@ -125,7 +125,6 @@ export default {
   },
   created() {
     this.shoppingDetail(this.$route.query.id);
-    this.getOrder();
   },
   methods: {
     /* 金额保留2位小数 */
@@ -197,14 +196,6 @@ export default {
         })
       }).catch(err => {})
     },
-    /* 订单列表 */
-    getOrder(){
-      axiosPost(process.env.API_HOST + get_order, {}
-      ).then(res => {
-        console.log(res);
-
-      }).catch(err => {})
-    }
   },
   mounted() {
     

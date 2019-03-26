@@ -16,7 +16,7 @@ import { Swipe, SwipeItem, Search, Tabbar, TabbarItem } from 'vant';
 export default {
   data() {
     return{
-      active: 2,
+      active: 3,
     }
   },
   components: {
@@ -38,13 +38,13 @@ export default {
           this.$router.push({path: '/'});
           break;
         case 1:
-          this.$router.push({path: '/allShopping'});
+          this.$router.push({path: '/mine'});
           break;
         case 2:
-          this.$router.push({path: '/shoppingCart'});
+          this.$router.push({path: '/allShopping'});
           break;
         case 3:
-          this.$router.push({path: '/mine'});
+          this.$router.push({path: '/shoppingCart'});
           break;
       }
     }

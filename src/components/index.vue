@@ -1,12 +1,12 @@
 <template>
   <div class="index">
-    <van-swipe :autoplay="3000" class="index-swipe">
+    <!-- <van-swipe :autoplay="3000" class="index-swipe">
       <van-swipe-item v-for="(thumb,index) in swipeItems" :key="index">
         <img :src="thumb.thumb">
       </van-swipe-item>
-    </van-swipe>
-    <van-search placeholder="搜索商品" v-model="searchShop" />
-    <img v-for="(img,index) in imageList" :key="index" :src="img" class="img">
+    </van-swipe> -->
+    <!-- <van-search placeholder="搜索商品" v-model="searchShop" />
+    <img v-for="(img,index) in imageList" :key="index" :src="img" class="img"> -->
     <van-row class="shoppings">
       <van-col span="11" v-for="(items, index) in shopList" :key="index" @click.native="shopDetailClick(items.item_id)">
         <div class="shop-img"><img :src="items.headimg" alt=""></div>
@@ -17,8 +17,8 @@
     </van-row>
     <van-tabbar v-model="active" @change="tabbarChange">
       <van-tabbar-item icon="wap-home">首页</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">全部商品</van-tabbar-item>
-      <van-tabbar-item icon="cart-o">购物车</van-tabbar-item>
+      <!-- <van-tabbar-item icon="shop-o">全部商品</van-tabbar-item> -->
+      <!-- <van-tabbar-item icon="cart-o">购物车</van-tabbar-item> -->
       <van-tabbar-item icon="manager-o">我的订单</van-tabbar-item>
     </van-tabbar>
     <div class="tab-bottom"></div>
@@ -79,13 +79,13 @@ export default {
           this.$router.push({path: '/'});
           break;
         case 1:
-          this.$router.push({path: '/allShopping'});
+          this.$router.push({path: '/mine'});
           break;
         case 2:
-          this.$router.push({path: '/shoppingCart'});
+          this.$router.push({path: '/allShopping'});
           break;
         case 3:
-          this.$router.push({path: '/mine'});
+          this.$router.push({path: '/shoppingCart'});
           break;
       }
     },

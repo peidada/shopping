@@ -8,6 +8,7 @@ import shoppingDetail from '@/components/shoppingDetail';
 import detailMain from '@/components/detailMain';
 import firmOrder from '@/components/firmOrder';
 import paySuccess from '@/components/paySuccess';
+import mineDetail from '@/components/mineDetail';
 
 /* 使用路由依赖 */
 Vue.use(Router)
@@ -50,9 +51,14 @@ export default new Router({
       component: firmOrder
     },
     {
-      path: '/paySuccess', //支付成功页面
+      path: '/paySuccess', //支付成功页
       name: 'paySuccess',
       component: paySuccess
+    },
+    {
+      path: '/mineDetail', //用户信息页
+      name: 'mineDetail',
+      component: mineDetail
     },
   ]
 })

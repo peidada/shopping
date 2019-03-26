@@ -26,7 +26,7 @@ export default {
     [Button.name]: Button,
   },
   created() {
-    this.test();
+    
   },
   methods: {
     paySuccess() {
@@ -34,12 +34,6 @@ export default {
         path: '/'
       })
     },
-    test() {
-      axiosPost(process.env.API_HOST + get_userinfo, {}).then(res => {
-        console.log(res);
-
-      }).catch(err => {})
-    }
   }
 }
 </script>
